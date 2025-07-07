@@ -3,45 +3,52 @@ import axios from "axios";
 import { FaCartShopping } from "react-icons/fa6";
 
 const Shop = () => {
-  const [getAxiosProducts, setGetAxiosProducts] = useState([]);
+  const [products, setProducts] = useState([]);
 
   const getAllProducts = async () => {
     const res = await axios.get("https://fakestoreapi.com/products");
-    setGetAxiosProducts(res.data);
+    setProducts(res.data);
   };
-
-  console.log(getAxiosProducts);
 
   useEffect(() => {
     getAllProducts();
   }, []);
+
   return (
-    <div className="flex items-center justify-center flex-col pt-[150px]">
-      <div className="mb-20 ">
-        <h1 className="font-semibold text-5xl">Products Listing</h1>
+    <div className="min-h-screen bg-gray-100 py-24 px-6">
+      <div className="text-center mb-12">
+        <h1 className="text-4xl font-bold text-gray-800">Explore Products</h1>
+        <p className="text-gray-500 mt-2">Find something you'll love</p>
       </div>
-      <div className="flex flex-wrap justify-center gap-[20px]">
-        {getAxiosProducts.map((products, i) => (
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
+        {products.map((product, i) => (
           <div
-            className=" flex flex-col  rounded  w-[300px] h-[400px] p-[15px] items-center justify-center shadow-md shadow-gray-400"
             key={i}
+            className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between"
           >
-            <div className="w-[200px] h-[200px] mb-[10px]">
+            <div className="h-56 bg-gray-100 flex items-center justify-center">
               <img
-                src={products.image}
-                alt="images"
-                className="w-full h-full bg-blend-color"
+                src={product.image}
+                alt={product.title}
+                className="h-full object-contain p-4"
               />
             </div>
-            <div className="flex flex-col items-center  gap-[10px]">
-              <h1 className="font-semibold text-[14px] text-center">
-                {products.title}
-              </h1>
-              <p className="font-semibold text-[14px] text-green-500">
-                ${products.price}
+
+            <div className="p-4 flex-1 flex flex-col justify-between">
+              <h2 className="text-sm font-semibold text-gray-800 line-clamp-2">
+                {product.title}
+              </h2>
+              <p className="text-green-600 font-bold text-lg mt-2">
+                ${product.price}
               </p>
-              <i className="font-semibold text-[14px]">{products.category}</i>
-              <button className=" w-100% p-[10px] bg-blue-700 rounded text-white text-center flex items-center gap-2 cursor-pointer ">
+              <p className="text-gray-500 text-sm mt-1 italic">
+                {product.category}
+              </p>
+            </div>
+
+            <div className="p-4 border-t border-gray-200">
+              <button className="w-full bg-blue-700 hover:bg-blue-800 text-white text-sm py-2 px-4 rounded-md flex items-center justify-center gap-2 transition-all duration-300">
                 Add to Cart <FaCartShopping />
               </button>
             </div>
