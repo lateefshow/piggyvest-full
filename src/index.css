@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+--breakpoint{
+    --max-tablet:800px;
+    --max-mobile:500px;
+}
